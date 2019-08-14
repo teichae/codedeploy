@@ -1,0 +1,30 @@
+version: 0.0
+os: linux
+#파일 배포용 소스
+files:
+  - source:  /
+    destination: /home/centos/
+
+#퍼미션 지정
+permissions:
+  - object: /
+    pattern: "**"
+    owner: centos
+    group: centos
+
+#배포 프로세스
+hooks:
+    ApplicationStop:
+    - location: service_stop.sh
+      timeout: 120
+      runas: centos
+
+    AfterInstall:
+    - location: deploy.sh
+      timeout: 120
+      runas: centos
+
+    ApplicationStart:
+    - location: service_start.sh
+      timeout: 120
+      runas: centos
